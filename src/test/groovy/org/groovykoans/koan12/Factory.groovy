@@ -14,6 +14,7 @@ class Factory {
 
     // defaults to a Hard (and slow) Worker implementation
     Factory(worker = new HardWorker(), numbers = 1..10) {
+        println(worker.class)
         this.numbers = numbers;
         this.worker = worker;
     }

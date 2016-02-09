@@ -28,12 +28,11 @@ class Koan12 extends GroovyTestCase {
 
         // ------------ START EDITING HERE ----------------------
 
-
+        shouldFail(MissingMethodException, {
             // ------------ STOP EDITING HERE  ----------------------
             Integer.nonExistentMethod()
             // ------------ START EDITING HERE ----------------------
-
-
+        })
         // ------------ STOP EDITING HERE  ----------------------
 
     }
@@ -48,8 +47,11 @@ class Koan12 extends GroovyTestCase {
         Factory factory = new Factory()
         long startTime = System.currentTimeMillis()
         // ------------ START EDITING HERE ----------------------
-
-
+        def expando = new Expando()
+        expando.work = { number ->
+            println("working fast ${number}")
+        }
+        factory = new Factory(expando)
         // ------------ STOP EDITING HERE  ----------------------
         factory.work()
         long endTime = System.currentTimeMillis()
@@ -61,8 +63,9 @@ class Koan12 extends GroovyTestCase {
         // Try to experiment with Map Coercion too - http://docs.groovy-lang.org/latest/html/documentation/index.html#_mocking_and_stubbing
         startTime = System.currentTimeMillis()
         // ------------ START EDITING HERE ----------------------
-
-
+        StaticFactory.metaClass.static.getWorker = {[ work: { number ->
+            println("working fast map ${number}")
+        }]}
         // ------------ STOP EDITING HERE  ----------------------
        new StaticFactory(numbers: 1..10).work()
         endTime = System.currentTimeMillis()
